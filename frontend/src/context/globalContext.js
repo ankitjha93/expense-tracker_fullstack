@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react"
 import axios from 'axios'
 import { useAuth } from './authContext'
 
-const BASE_URL = 'http://localhost:5000/api/v1/';
+const RAW_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000/api/v1/';
+const BASE_URL = RAW_BASE_URL.endsWith('/') ? RAW_BASE_URL : `${RAW_BASE_URL}/`;
 
 const GlobalContext = React.createContext()
 
