@@ -39,13 +39,52 @@ export const AuthProvider = ({ children }) => {
     const [session, setSession] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // Auto-purge heavy avatar data from Supabase user_metadata to eliminate HTTP 431 Request Header Too Large
+    const sanitizeUserMetadata = async (authUser) => {
+        if (!authUser) return authUser;
+        const meta = authUser.user_metadata || {};
+        const avatarVal = meta.avatar_url;
+        
+        // If avatar_url is a Data URL or long string, it bloats the JWT Access Token (>10KB), causing HTTP 431
+        if (avatarVal && typeof avatarVal === 'string' && (avatarVal.startsWith('data:') || avatarVal.length > 120)) {
+            console.log('Sanitizing bloated avatar from Supabase JWT to keep token under 1KB...');
+            // 1. Preserve the avatar locally
+            try {
+                const userKey = `user_custom_profile_${authUser.id}`;
+                const existing = getCachedProfile(authUser.id) || {};
+                const preserved = { ...existing, avatar_url: avatarVal };
+                localStorage.setItem(userKey, JSON.stringify(preserved));
+                localStorage.setItem('user_custom_profile', JSON.stringify(preserved));
+            } catch (e) {
+                console.warn('LocalStorage save error during sanitize:', e);
+            }
+
+            // 2. Strip avatar_url from Supabase cloud user_metadata so the JWT shrinks to ~800 bytes
+            try {
+                const { data } = await supabase.auth.updateUser({
+                    data: {
+                        avatar_url: null,
+                        has_custom_avatar: true
+                    }
+                });
+                if (data?.user) {
+                    return data.user;
+                }
+            } catch (err) {
+                console.warn('Cloud avatar purge error:', err);
+            }
+        }
+        return authUser;
+    };
+
     useEffect(() => {
         // Fetch current session
         const getInitialSession = async () => {
             const { data: { session }, error } = await supabase.auth.getSession();
-            if (!error && session) {
+            if (!error && session?.user) {
                 setSession(session);
-                setUser(mergeUserWithCache(session.user));
+                const cleanedUser = await sanitizeUserMetadata(session.user);
+                setUser(mergeUserWithCache(cleanedUser));
             }
             setLoading(false);
         };
@@ -53,9 +92,14 @@ export const AuthProvider = ({ children }) => {
         getInitialSession();
 
         // Listen for auth state changes
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
             setSession(session);
-            setUser(session ? mergeUserWithCache(session.user) : null);
+            if (session?.user) {
+                const cleanedUser = await sanitizeUserMetadata(session.user);
+                setUser(mergeUserWithCache(cleanedUser));
+            } else {
+                setUser(null);
+            }
             setLoading(false);
         });
 
@@ -93,9 +137,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     const updateProfile = async ({ fullName, avatarUrl, role, auraColor }) => {
-        const updates = {
+        const localUpdates = {
             full_name: fullName,
-            avatar_url: avatarUrl,
+            avatar_url: avatarUrl, // Full image data kept in client-side localStorage
             role: role || 'Wealth Builder',
             aura_color: auraColor || 'emerald',
             updated_at: new Date().toISOString()
@@ -104,9 +148,9 @@ export const AuthProvider = ({ children }) => {
         // Cache in localStorage safely for immediate zero-latency persistence
         try {
             if (user?.id) {
-                localStorage.setItem(`user_custom_profile_${user.id}`, JSON.stringify(updates));
+                localStorage.setItem(`user_custom_profile_${user.id}`, JSON.stringify(localUpdates));
             }
-            localStorage.setItem('user_custom_profile', JSON.stringify(updates));
+            localStorage.setItem('user_custom_profile', JSON.stringify(localUpdates));
         } catch (storageErr) {
             console.warn('LocalStorage quota or access warning:', storageErr);
         }
@@ -118,15 +162,25 @@ export const AuthProvider = ({ children }) => {
                 ...prevUser,
                 user_metadata: {
                     ...(prevUser.user_metadata || {}),
-                    ...updates
+                    ...localUpdates
                 }
             };
         });
 
-        // Sync with Supabase cloud
+        // Sync ONLY lightweight metadata to Supabase to keep the JWT compact (~800 bytes)
+        // Never put base64 image strings in cloud user_metadata because it inflates HTTP headers!
+        const cloudUpdates = {
+            full_name: fullName,
+            role: role || 'Wealth Builder',
+            aura_color: auraColor || 'emerald',
+            has_custom_avatar: Boolean(avatarUrl),
+            avatar_url: null, // explicit null to avoid JWT bloat
+            updated_at: new Date().toISOString()
+        };
+
         try {
             const { data, error } = await supabase.auth.updateUser({
-                data: updates,
+                data: cloudUpdates,
             });
             if (error) {
                 console.warn('Supabase updateUser warning:', error.message);
@@ -136,14 +190,14 @@ export const AuthProvider = ({ children }) => {
                     ...data.user,
                     user_metadata: {
                         ...(data.user.user_metadata || {}),
-                        ...updates
+                        ...localUpdates // preserve local custom avatar
                     }
                 });
             }
-            return updates;
+            return localUpdates;
         } catch (err) {
             console.warn('Profile update error, retained locally:', err);
-            return updates;
+            return localUpdates;
         }
     };
 
