@@ -511,6 +511,82 @@ const TransactionsStyled = styled.div`
       }
     }
   }
+
+  @media (max-width: 768px) {
+    .summary-bar {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.65rem;
+
+      .stat-pill {
+        padding: 0.65rem 0.85rem;
+        justify-content: space-between;
+      }
+    }
+
+    .controls-panel {
+      padding: 1rem;
+      gap: 0.85rem;
+
+      .filters-row {
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .type-tabs {
+          width: 100%;
+          display: flex;
+
+          button {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem 0.4rem;
+            font-size: 0.78rem;
+          }
+        }
+
+        .select-group {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0.65rem;
+          width: 100%;
+
+          .select-wrap {
+            width: 100%;
+
+            select {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 640px) {
+    .view-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1.2rem;
+
+      h1 {
+        font-size: 1.45rem;
+      }
+
+      .header-cta {
+        width: 100%;
+
+        .export-btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    }
+
+    .summary-bar {
+      grid-template-columns: 1fr;
+    }
+  }
 `;
 
 export default TransactionsView

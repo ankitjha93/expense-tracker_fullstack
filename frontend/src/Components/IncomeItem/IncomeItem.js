@@ -369,6 +369,46 @@ const IncomeItemStyled = styled(motion.div)`
       }
     }
   }
+
+  @media (max-width: 540px) {
+    padding: 0.85rem 0.95rem;
+    gap: 0.85rem;
+    border-radius: 16px;
+
+    .icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+
+      i {
+        font-size: 1.2rem;
+      }
+    }
+
+    .content {
+      .title-row {
+        .title-group h5 {
+          font-size: 0.92rem;
+          max-width: 130px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .amount-badge {
+          font-size: 1rem;
+        }
+      }
+
+      .meta-row .meta-details {
+        gap: 0.45rem;
+
+        .meta-desc {
+          max-width: 120px;
+        }
+      }
+    }
+  }
 `;
 
 export default IncomeItem

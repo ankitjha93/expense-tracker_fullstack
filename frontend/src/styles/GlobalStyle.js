@@ -40,9 +40,16 @@ export const GlobalStyle = createGlobalStyle`
         font-size: clamp(0.95rem, 1.2vw, 1.05rem);
         background-color: var(--bg-body);
         color: var(--primary-color);
-        overflow: hidden;
+        overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    @media (max-width: 768px) {
+        input, select, textarea {
+            font-size: 16px !important;
+        }
     }
 
     h1, h2, h3, h4, h5, h6 {

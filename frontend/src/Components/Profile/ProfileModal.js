@@ -945,6 +945,33 @@ const ModalContent = styled(motion.div)`
       }
     }
   }
+
+  @media (max-width: 600px) {
+    padding: 1.1rem;
+    border-radius: 18px;
+    gap: 1rem;
+
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+
+    .custom-photo-card {
+      padding: 0.9rem;
+      gap: 0.85rem;
+
+      .photo-preview-ring {
+        width: 56px;
+        height: 56px;
+      }
+    }
+  }
+
+  @media (max-width: 420px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 `;
 
 export default ProfileModal;

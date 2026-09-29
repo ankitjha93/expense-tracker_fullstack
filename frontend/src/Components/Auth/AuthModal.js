@@ -356,6 +356,8 @@ const AuthStyled = styled.div`
     justify-content: center;
     align-items: center;
     padding: 1.5rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 
     .auth-card {
         width: 100%;
@@ -370,6 +372,20 @@ const AuthStyled = styled.div`
         display: flex;
         flex-direction: column;
         gap: 1.4rem;
+        max-height: 90vh;
+        max-height: 90dvh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+
+        @media (max-width: 480px) {
+            padding: 1.5rem 1.25rem;
+            border-radius: 20px;
+            gap: 1.1rem;
+
+            .auth-header h2 {
+                font-size: 1.4rem;
+            }
+        }
     }
 
     .brand-badge {

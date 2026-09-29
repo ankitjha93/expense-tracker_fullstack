@@ -985,11 +985,44 @@ const BudgetsStyled = styled.div`
     }
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1024px) {
     .budgets-layout {
       grid-template-columns: 1fr;
+      gap: 1.2rem;
     }
     .summary-card .summary-metrics {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+
+      h1 {
+        font-size: 1.45rem;
+      }
+    }
+
+    .summary-card {
+      padding: 1.1rem;
+      margin-bottom: 1.2rem;
+
+      .summary-metrics {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+
+        .metric-box h2 {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .budgets-layout .active-budgets-col .cards-grid {
       grid-template-columns: 1fr;
     }
   }

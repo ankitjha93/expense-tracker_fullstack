@@ -100,6 +100,7 @@ function App() {
 
 const AppStyled = styled.div`
   height: 100vh;
+  height: 100dvh;
   background-color: var(--bg-body);
   background-image: 
     radial-gradient(at 10% 20%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
@@ -144,6 +145,15 @@ const AppStyled = styled.div`
 
     overflow-x: hidden;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    @media (max-width: 1024px) {
+      border-radius: 20px;
+    }
+
+    @media (max-width: 640px) {
+      border-radius: 16px;
+    }
   }
 `;
 

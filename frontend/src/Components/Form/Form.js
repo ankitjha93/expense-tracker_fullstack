@@ -347,6 +347,16 @@ const FormStyled = styled.form`
       box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
     }
   }
+
+  @media (max-width: 480px) {
+    padding: 1.2rem 1rem;
+
+    .input-control .quick-amounts .quick-btn {
+      flex: 1 1 calc(50% - 0.4rem);
+      padding: 0.35rem 0.5rem;
+      text-align: center;
+    }
+  }
 `;
 
 export default Form

@@ -1542,12 +1542,48 @@ const AdvisorStyled = styled.div`
     to { transform: rotate(360deg); }
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1024px) {
     .analytics-grid {
       grid-template-columns: 1fr;
+      gap: 1rem;
     }
     .insights-row {
       grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+
+      h1 {
+        font-size: 1.45rem;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
+    .analytics-grid .metric-overview-card {
+      padding: 1.1rem;
+    }
+
+    .advisor-chat-card {
+      padding: 1.1rem;
+
+      .chat-messages {
+        height: 280px;
+      }
+
+      .chat-input-row {
+        gap: 0.5rem;
+      }
     }
   }
 `;

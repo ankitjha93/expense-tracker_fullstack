@@ -1233,12 +1233,95 @@ const DashboardStyled = styled.div`
     }
   }
 
-  @media (max-width: 1200px) {
-    .metrics-grid {
-      grid-template-columns: 1fr;
-    }
+  @media (max-width: 1024px) {
     .content-grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .metrics-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 1.2rem;
+      gap: 0.8rem;
+
+      h1 {
+        font-size: 1.45rem;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
+    .sample-data-banner {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1rem;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+
+      .banner-left {
+        min-width: 100%;
+      }
+
+      .banner-actions {
+        width: 100%;
+        flex-wrap: wrap;
+
+        .action-btn {
+          flex: 1;
+          justify-content: center;
+        }
+
+        .close-banner-btn {
+          margin-left: auto;
+        }
+      }
+    }
+
+    .metrics-grid {
+      margin-bottom: 1.2rem;
+
+      .metric-card {
+        padding: 1.1rem;
+
+        .value-wrap h2 {
+          font-size: 1.65rem;
+        }
+      }
+    }
+
+    .content-grid {
+      gap: 1rem;
+
+      .chart-section {
+        min-height: auto;
+        gap: 1rem;
+
+        .category-breakdown-card {
+          padding: 1.1rem;
+        }
+      }
+
+      .sidebar-section {
+        gap: 1rem;
+
+        .range-analytics,
+        .budget-overview-card,
+        .ai-briefing-card {
+          padding: 1.1rem;
+        }
+      }
     }
   }
 `;

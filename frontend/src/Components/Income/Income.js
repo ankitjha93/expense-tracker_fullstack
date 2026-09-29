@@ -324,9 +324,57 @@ const IncomeStyled = styled.div`
     }
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1024px) {
     .income-layout {
       grid-template-columns: 1fr;
+      gap: 1.2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+
+      h1 {
+        font-size: 1.45rem;
+      }
+
+      .total-badge {
+        width: 100%;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.65rem 1rem;
+        border-radius: 14px;
+
+        h3 {
+          font-size: 1.35rem;
+        }
+      }
+    }
+
+    .income-layout .list-col .filter-bar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.65rem;
+
+      .search-input-wrap {
+        width: 100%;
+        min-width: 100%;
+      }
+
+      .filter-right {
+        width: 100%;
+        justify-content: space-between;
+
+        .category-select {
+          flex: 1;
+        }
+      }
     }
   }
 `;
