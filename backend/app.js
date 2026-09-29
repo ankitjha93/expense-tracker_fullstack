@@ -11,7 +11,15 @@ const PORT = process.env.PORT
 // middlewares
 
 app.use(express.json())
-app.use(cors())
+// Robust CORS configuration supporting both direct browser calls and reverse proxy requests
+const corsOptions = {
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-gemini-key', 'Accept']
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // routes - support both /api/v1 prefix and direct root fallback
 readdirSync('./routes').map((route) => {

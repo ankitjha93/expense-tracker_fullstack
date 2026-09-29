@@ -2,16 +2,31 @@ import React, { useContext, useEffect, useState } from "react"
 import axios from 'axios'
 import { useAuth } from './authContext'
 
-const formatBaseUrl = (url) => {
-  if (!url) return 'http://localhost:5000/api/v1/';
-  let cleaned = url.trim().replace(/\/+$/, '');
+// Configure default timeout (45s) to comfortably handle Render free-tier cold starts
+axios.defaults.timeout = 45000;
+
+const getBaseUrl = () => {
+  const envUrl = process.env.REACT_APP_BACKEND_URL;
+  // In local development, connect directly to local backend
+  if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+    if (!envUrl || envUrl.includes('localhost') || envUrl.includes('127.0.0.1')) {
+      return 'http://localhost:5000/api/v1/';
+    }
+  }
+  // In production on Vercel, use same-origin reverse proxy path '/api/v1/'.
+  // This routes through Vercel's edge network directly to Render, eliminating
+  // cross-origin tracking blocks (Brave Shields, Safari ITP) and preflight failures.
+  if (!envUrl || envUrl === '/api/v1/' || envUrl === '/api/v1' || envUrl.includes('onrender.com')) {
+    return '/api/v1/';
+  }
+  let cleaned = envUrl.trim().replace(/\/+$/, '');
   if (!cleaned.endsWith('/api/v1')) {
     cleaned = `${cleaned}/api/v1`;
   }
   return `${cleaned}/`;
 };
 
-const BASE_URL = formatBaseUrl(process.env.REACT_APP_BACKEND_URL);
+const BASE_URL = getBaseUrl();
 
 const GlobalContext = React.createContext()
 
