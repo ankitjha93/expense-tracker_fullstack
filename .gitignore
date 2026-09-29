@@ -21,6 +21,9 @@ dist/
 
 # Testing
 coverage/
+test-results/
+playwright-report/
+blob-report/
 
 # Temporary, OS & Editor files
 *.log

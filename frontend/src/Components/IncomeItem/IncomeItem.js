@@ -85,6 +85,7 @@ function IncomeItem({
 
   return (
     <IncomeItemStyled
+      className='income-item'
       indicator={indicatorColor}
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
