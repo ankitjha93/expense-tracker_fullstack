@@ -13,8 +13,12 @@ const PORT = process.env.PORT
 app.use(express.json())
 app.use(cors())
 
-// routes
-readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)))
+// routes - support both /api/v1 prefix and direct root fallback
+readdirSync('./routes').map((route) => {
+  const router = require('./routes/' + route);
+  app.use('/api/v1', router);
+  app.use('/', router);
+});
 
 
 // Root Health Check & API Status Endpoint

@@ -27,7 +27,8 @@ function Dashboard({ setActive }) {
       await seedDemoData()
       toast.success('Sample financial data generated successfully!', 'Data Seeded')
     } catch (err) {
-      toast.error('Failed to generate sample data', 'Error')
+      const errorMsg = err.response?.data?.message || err.message || 'Failed to generate sample data'
+      toast.error(errorMsg, 'Error')
     } finally {
       setSeeding(false)
     }
@@ -39,7 +40,8 @@ function Dashboard({ setActive }) {
       await clearUserData()
       toast.info('All transaction records have been cleared.', 'Clean Slate')
     } catch (err) {
-      toast.error('Failed to clear transaction records', 'Error')
+      const errorMsg = err.response?.data?.message || err.message || 'Failed to clear transaction records'
+      toast.error(errorMsg, 'Error')
     } finally {
       setClearing(false)
     }
