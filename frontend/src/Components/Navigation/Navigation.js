@@ -9,6 +9,7 @@ import { useToast } from '../../context/toastContext'
 import { useGlobalContext } from '../../context/globalContext'
 import ProfileModal from '../Profile/ProfileModal'
 import { AURA_COLORS } from '../Profile/avatarPresets'
+import InteractiveBrand from '../Brand/InteractiveBrand'
 
 function Navigation({ active, setActive }) {
   const { user, signOut } = useAuth()
@@ -58,17 +59,7 @@ function Navigation({ active, setActive }) {
   return (
     <NavStyled>
       <div className='brand-header'>
-        <div className='brand-logo'>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#818CF8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M2 17L12 22L22 17" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M2 12L12 17L22 12" stroke="#10B981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-        <div className='brand-text'>
-          <h3>VAULT</h3>
-          <span>Fintech Intelligence</span>
-        </div>
+        <InteractiveBrand size="md" />
       </div>
 
       <ul className='menu-items'>
@@ -193,39 +184,8 @@ const NavStyled = styled.nav`
   .brand-header {
     display: flex;
     align-items: center;
-    gap: 0.9rem;
-    padding: 0.2rem 0.5rem 1rem 0.5rem;
+    padding: 0.2rem 0.2rem 1rem 0.2rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-
-    .brand-logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.25), rgba(16, 185, 129, 0.15));
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
-    }
-
-    .brand-text {
-      h3 {
-        font-size: 1.25rem;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        background: linear-gradient(135deg, #ffffff 40%, #818cf8 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      span {
-        font-size: 0.72rem;
-        color: var(--text-dim);
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        font-weight: 600;
-      }
-    }
   }
 
   .menu-items {

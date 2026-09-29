@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/authContext';
 import { useToast } from '../../context/toastContext';
+import InteractiveBrand from '../Brand/InteractiveBrand';
 
 function AuthModal() {
     const { signIn, signUp } = useAuth();
@@ -82,7 +83,7 @@ function AuthModal() {
                     setSuccessMsg(msg);
                     toast.info(msg, 'Account Created');
                 } else {
-                    toast.success('Account created successfully! Welcome to Vault Finance.', 'Account Created');
+                    toast.success('Account created successfully! Welcome to AURA Wealth OS.', 'Account Created');
                 }
             } else {
                 const res = await signIn(email, password);
@@ -106,13 +107,8 @@ function AuthModal() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 350 }}
             >
-                <div className="brand-badge">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#818CF8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M2 17L12 22L22 17" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M2 12L12 17L22 12" stroke="#10B981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <span>VAULT FINANCE</span>
+                <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '0.2rem' }}>
+                    <InteractiveBrand size="lg" isCentered />
                 </div>
 
                 <div className="auth-header">
